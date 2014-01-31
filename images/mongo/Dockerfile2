@@ -1,0 +1,16 @@
+FROM ubuntu:precise
+MAINTAINER Tim Nelson <tim@eltimn.com>
+
+RUN apt-get update
+RUN apt-get install -y wget
+
+ENV VERSION 2.4.8
+RUN wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-$VERSION.tgz
+RUN tar xzvf mongodb-linux-x86_64-$VERSION.tgz
+RUN ln -sfn mongodb-linux-x86_64-$VERSION mongodb
+
+RUN apt-get -y upgrade
+
+RUN mkdir -p /data/db
+
+ENTRYPOINT ["/mongodb/bin/mongod"]

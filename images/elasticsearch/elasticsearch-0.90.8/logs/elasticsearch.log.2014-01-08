@@ -1,0 +1,108 @@
+[2014-01-08 12:19:00,470][WARN ][discovery.zen.ping.multicast] [Trader] failed to connect to requesting node [Power, Alex][y1cu4HqsQ_2XYadHdObrPw][inet[/10.0.2.15:9300]]
+org.elasticsearch.transport.ConnectTransportException: [Power, Alex][inet[/10.0.2.15:9300]] connect_timeout[30s]
+	at org.elasticsearch.transport.netty.NettyTransport.connectToChannels(NettyTransport.java:711)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:640)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:608)
+	at org.elasticsearch.transport.TransportService.connectToNode(TransportService.java:129)
+	at org.elasticsearch.discovery.zen.ping.multicast.MulticastZenPing$Receiver$2.run(MulticastZenPing.java:546)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:724)
+Caused by: org.elasticsearch.common.netty.channel.ConnectTimeoutException: connection timed out: /10.0.2.15:9300
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.processConnectTimeout(NioClientBoss.java:137)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.process(NioClientBoss.java:83)
+	at org.elasticsearch.common.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:318)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.run(NioClientBoss.java:42)
+	at org.elasticsearch.common.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:108)
+	at org.elasticsearch.common.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42)
+	... 3 more
+[2014-01-08 12:19:30,567][WARN ][discovery.zen.ping.multicast] [Trader] failed to connect to requesting node [Power, Alex][y1cu4HqsQ_2XYadHdObrPw][inet[/10.0.2.15:9300]]
+org.elasticsearch.transport.ConnectTransportException: [Power, Alex][inet[/10.0.2.15:9300]] connect_timeout[30s]
+	at org.elasticsearch.transport.netty.NettyTransport.connectToChannels(NettyTransport.java:711)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:640)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:608)
+	at org.elasticsearch.transport.TransportService.connectToNode(TransportService.java:129)
+	at org.elasticsearch.discovery.zen.ping.multicast.MulticastZenPing$Receiver$2.run(MulticastZenPing.java:546)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:724)
+Caused by: org.elasticsearch.common.netty.channel.ConnectTimeoutException: connection timed out: /10.0.2.15:9300
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.processConnectTimeout(NioClientBoss.java:137)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.process(NioClientBoss.java:83)
+	at org.elasticsearch.common.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:318)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.run(NioClientBoss.java:42)
+	at org.elasticsearch.common.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:108)
+	at org.elasticsearch.common.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42)
+	... 3 more
+[2014-01-08 12:19:38,966][WARN ][discovery.zen.ping.multicast] [Trader] failed to connect to requesting node [Zeus][KDKCBSbXShmdABzp8oW4gw][inet[/10.0.2.15:9300]]
+org.elasticsearch.transport.ConnectTransportException: [Zeus][inet[/10.0.2.15:9300]] connect_timeout[30s]
+	at org.elasticsearch.transport.netty.NettyTransport.connectToChannels(NettyTransport.java:711)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:640)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:608)
+	at org.elasticsearch.transport.TransportService.connectToNode(TransportService.java:129)
+	at org.elasticsearch.discovery.zen.ping.multicast.MulticastZenPing$Receiver$2.run(MulticastZenPing.java:546)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:724)
+Caused by: org.elasticsearch.common.netty.channel.ConnectTimeoutException: connection timed out: /10.0.2.15:9300
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.processConnectTimeout(NioClientBoss.java:137)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.process(NioClientBoss.java:83)
+	at org.elasticsearch.common.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:318)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.run(NioClientBoss.java:42)
+	at org.elasticsearch.common.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:108)
+	at org.elasticsearch.common.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42)
+	... 3 more
+[2014-01-08 12:20:09,006][WARN ][discovery.zen.ping.multicast] [Trader] failed to connect to requesting node [Zeus][KDKCBSbXShmdABzp8oW4gw][inet[/10.0.2.15:9300]]
+org.elasticsearch.transport.ConnectTransportException: [Zeus][inet[/10.0.2.15:9300]] connect_timeout[30s]
+	at org.elasticsearch.transport.netty.NettyTransport.connectToChannels(NettyTransport.java:711)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:640)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:608)
+	at org.elasticsearch.transport.TransportService.connectToNode(TransportService.java:129)
+	at org.elasticsearch.discovery.zen.ping.multicast.MulticastZenPing$Receiver$2.run(MulticastZenPing.java:546)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:724)
+Caused by: org.elasticsearch.common.netty.channel.ConnectTimeoutException: connection timed out: /10.0.2.15:9300
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.processConnectTimeout(NioClientBoss.java:137)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.process(NioClientBoss.java:83)
+	at org.elasticsearch.common.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:318)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.run(NioClientBoss.java:42)
+	at org.elasticsearch.common.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:108)
+	at org.elasticsearch.common.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42)
+	... 3 more
+[2014-01-08 17:44:34,629][WARN ][discovery.zen.ping.multicast] [Trader] failed to connect to requesting node [Bob][drvid_3uTfSXdFIfkQ0EPQ][inet[/10.0.2.15:9300]]
+org.elasticsearch.transport.ConnectTransportException: [Bob][inet[/10.0.2.15:9300]] connect_timeout[30s]
+	at org.elasticsearch.transport.netty.NettyTransport.connectToChannels(NettyTransport.java:711)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:640)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:608)
+	at org.elasticsearch.transport.TransportService.connectToNode(TransportService.java:129)
+	at org.elasticsearch.discovery.zen.ping.multicast.MulticastZenPing$Receiver$2.run(MulticastZenPing.java:546)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:724)
+Caused by: org.elasticsearch.common.netty.channel.ConnectTimeoutException: connection timed out: /10.0.2.15:9300
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.processConnectTimeout(NioClientBoss.java:137)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.process(NioClientBoss.java:83)
+	at org.elasticsearch.common.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:318)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.run(NioClientBoss.java:42)
+	at org.elasticsearch.common.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:108)
+	at org.elasticsearch.common.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42)
+	... 3 more
+[2014-01-08 17:45:04,660][WARN ][discovery.zen.ping.multicast] [Trader] failed to connect to requesting node [Bob][drvid_3uTfSXdFIfkQ0EPQ][inet[/10.0.2.15:9300]]
+org.elasticsearch.transport.ConnectTransportException: [Bob][inet[/10.0.2.15:9300]] connect_timeout[30s]
+	at org.elasticsearch.transport.netty.NettyTransport.connectToChannels(NettyTransport.java:711)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:640)
+	at org.elasticsearch.transport.netty.NettyTransport.connectToNode(NettyTransport.java:608)
+	at org.elasticsearch.transport.TransportService.connectToNode(TransportService.java:129)
+	at org.elasticsearch.discovery.zen.ping.multicast.MulticastZenPing$Receiver$2.run(MulticastZenPing.java:546)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:724)
+Caused by: org.elasticsearch.common.netty.channel.ConnectTimeoutException: connection timed out: /10.0.2.15:9300
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.processConnectTimeout(NioClientBoss.java:137)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.process(NioClientBoss.java:83)
+	at org.elasticsearch.common.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:318)
+	at org.elasticsearch.common.netty.channel.socket.nio.NioClientBoss.run(NioClientBoss.java:42)
+	at org.elasticsearch.common.netty.util.ThreadRenamingRunnable.run(ThreadRenamingRunnable.java:108)
+	at org.elasticsearch.common.netty.util.internal.DeadLockProofWorker$1.run(DeadLockProofWorker.java:42)
+	... 3 more

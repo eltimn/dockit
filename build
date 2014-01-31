@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Build all images
+
+set -e # exit on any non zero exit codes
+
+USRNAME=dockit
+
+docker build -t $USRNAME/base images/base
+docker build -t $USRNAME/openjdk7 images/openjdk7
+docker build -t $USRNAME/mongo images/mongo
+docker build -t $USRNAME/elasticsearch images/elasticsearch
+docker build -t $USRNAME/elasticsearch-mongo images/elasticsearch-mongo
+docker build -t $USRNAME/rabbitmq images/rabbitmq
+
+exit 0

@@ -1,0 +1,324 @@
+#!/usr/bin/env python
+
+import getopt, os, pprint, subprocess, sys
+import docker
+import yaml
+
+pp = pprint.PrettyPrinter(indent=4)
+verbose = False
+
+# socat -v UNIX-LISTEN:/tmp/socat-listen UNIX-CONNECT:/var/run/docker.sock
+
+def loadConfig(dockit_file):
+  conf = None
+  try:
+    stream = file(os.getcwd()+"/"+dockit_file, 'r')
+    conf = yaml.load(stream)
+  except IOError as err:
+    print "Error loading configuration: %s" % err
+  return conf
+
+class Dockit:
+  """The Dockit class for interacting with docker"""
+
+  def __init__(self, conf):
+    self.config = conf
+    self.c = docker.Client(base_url='unix://var/run/docker.sock', version="1.4", timeout=60)
+
+  # path=None, tag=None, quiet=False, fileobj=None, nocache=False, rm=False
+  def build(self, cont):
+    (msg, output) = self.c.build(path=cont['dockerfile'], tag=cont['image'])
+    print msg
+    print output
+
+  # image, command=None, hostname=None, user=None, detach=False, stdin_open=False,
+  # tty=False, mem_limit=0, ports=None, environment=None, dns=None, volumes=None,
+  # volumes_from=None, name=None
+  def create(self, cont):
+    ret = None
+    image = None
+
+    if 'image' in cont:
+      image = cont['image']
+
+    if image is None:
+      print "Error: container['image'] must be defined"
+      return None
+
+    img_info = self.c.images(name=image)
+
+    # build/pull it if not found
+    if not img_info:
+      if 'dockerfile' in cont: # build it
+        print "Building image from dockerfile: %s" % cont['dockerfile']
+        self.build(cont)
+      else: # pull it
+        print "Pulling image: %s" % image
+        res = self.c.pull(image)
+        #print "res from pull: %s" % res
+
+    try:
+      cmd = None
+      if 'command' in cont:
+        cmd = cont['command']
+
+      vols = self._getSrcVolumes(cont)
+      ports = self._getSrcPorts(cont)
+
+      print "cmd: %s" % cmd
+      print "ports: %s" % ports
+
+      ret = self.c.create_container(image, name=cont['name'], command=cmd, detach=True, volumes=vols, ports=ports)
+
+      if ret is not None:
+        print "Container %s created: %s" % (cont['name'], ret['Id'])
+        if 'Warnings' in ret:
+          print "Warnings: %s" % (ret['Warnings'])
+    except docker.client.APIError as err:
+      print err.explanation
+
+    return ret
+
+  def kill(self, name):
+    try:
+      ret = self.c.kill(name)
+      if ret is not None:
+        print ret
+      else:
+        print "Container %s killed." % (name)
+    except docker.client.APIError as err:
+      print err.explanation
+
+  def inspect(self, name):
+    info = self._getInfoByName(name)
+    if info is not None:
+      pp.pprint(info)
+
+  def remove(self, name):
+    try:
+      ret = self.c.remove_container(name)
+      if ret is not None:
+        print ret
+      else:
+        print "Container %s removed." % (name)
+    except docker.client.APIError as err:
+      print err.explanation
+
+  def restart(self, name):
+    try:
+      ret = self.c.restart(name)
+      if ret is not None:
+        print ret
+      else:
+        print "Container %s restarted." % (name)
+    except docker.client.APIError as err:
+      print err.explanation
+
+  def start(self, cont):
+    ret = None
+    vols = None
+    ports = None
+    links = None
+
+    if 'volumes' in cont:
+      vols = cont['volumes']
+
+    if 'ports' in cont:
+      ports = cont['ports']
+
+    if 'links' in cont:
+      links = cont['links']
+
+    if 'before_start' in cont:
+      if type(cont['before_start']) == list:
+        for s in cont['before_start']:
+          print "Running: %s" % s
+          subprocess.call(s.split(" "), shell=True)
+      else:
+        print "Running: %s" % cont['before_start']
+        subprocess.call(cont['before_start'].split(" "))
+
+    try:
+      ret = self.c.start(cont['name'], port_bindings=ports, binds=vols, links=links)
+      if ret is not None:
+        print ret
+      else:
+        print "Container %s started." % (cont['name'])
+    except docker.client.APIError as err:
+      print err.explanation
+
+    if ret is None and 'after_start' in cont:
+      if type(cont['after_start']) == list:
+        for s in cont['after_start']:
+          print "Running: %s" % s
+          subprocess.call(s.split(" "))
+      else:
+        print "Running: %s" % cont['after_start']
+        subprocess.call(cont['after_start'].split(" "))
+
+  def stop(self, name):
+    try:
+      ret = self.c.stop(name)
+      if ret is not None:
+        print ret
+      else:
+        print "Container %s stopped." % (name)
+    except docker.client.APIError as err:
+      print err.explanation
+
+  def top(self, name):
+    try:
+      pp.pprint(self.c.top(name))
+    except docker.client.APIError as err:
+      print err.explanation
+
+  def _getInfoByName(self, name):
+    ret = None
+    try:
+      info = self.c.inspect_container(name)
+      ret = info
+    except docker.client.APIError as err:
+      print err.explanation
+
+    return ret
+
+  def _getSrcPorts(self, cont):
+    ports = None
+    if 'ports' in cont and cont['ports'] is not None:
+      vols = cont['ports'].keys()
+    return vols
+
+  def _getSrcVolumes(self, cont):
+    vols = None
+    if 'volumes' in cont and cont['volumes'] is not None:
+      vols = cont['volumes'].keys()
+    return vols
+
+  def run_command(self, cmd, cont):
+    name = None
+
+    if 'name' in cont:
+      name = cont['name']
+
+    if name is None:
+      print "Error: container['name'] must be defined"
+      sys.exit(2)
+
+    if verbose:
+      print "Running '%s' for '%s'" % (cmd, name)
+
+    if cmd == "create":
+      self.create(cont)
+    elif cmd == "destroy":
+      # see if it exists
+      info = self._getInfoByName(name)
+      if info is not None:
+        if info['State']['Running']:
+          self.stop(name)
+
+        self.remove(name)
+      else:
+        print "Container %s does not exist." % name
+    elif cmd == "kill":
+      self.kill(name)
+    elif cmd == "inspect":
+      self.inspect(name)
+    elif cmd == "remove":
+      self.remove(name)
+    elif cmd == "restart":
+      self.restart(name)
+    elif cmd == "start":
+      self.start(cont)
+    elif cmd == "stop":
+      self.stop(name)
+    elif cmd == "top":
+      self.top(name)
+    elif cmd == "up":
+      # see if it already exists
+      info = self._getInfoByName(name)
+      if info is not None:
+        if verbose:
+          print "info: "
+          pp.pprint(info)
+        if info['State']['Running']:
+          print "Container %s is already running: %s" % (name, info['ID'])
+        else:
+          self.start(cont)
+      else: # create then start it
+        res = self.create(cont)
+        if res is not None:
+          self.start(cont)
+    else:
+      print "Unknown command: %s" % (cmd)
+      usage()
+
+def usage():
+  print """
+Usage: dockit [OPTIONS] [COMMAND]
+  -h --help         Display this usage message
+  -c --container    The name (or id) of the docker container to use
+  -i --inventory    The inventory file to use
+  -v --verbose      Output more logging during execution.
+
+Commands: create|destroy|inspect|kill|remove|restart|start|stop|top|up
+
+If no container is specified via the -c option, the command will
+be called for all containers listed in the inventory file.
+"""
+
+def main():
+  global verbose
+
+  try:
+    opts, args = getopt.getopt(sys.argv[1:], 'i:c:h:v', ['inventory=', 'container=', 'help', 'verbose'])
+  except getopt.GetoptError:
+    usage()
+    sys.exit(2)
+
+  inv = "dockit.yml"
+  cmd = None
+  cont = None
+
+  # check opts
+  for o, a in opts:
+    if o in ("-h", "--help"):
+      usage()
+      sys.exit()
+    elif o in ("-i", "--inventory"):
+      inv = a
+    elif o in ("-c", "--container"):
+      cont = a
+    elif o in ("-v", "--verbose"):
+      verbose = True
+    else:
+      assert False, "unhandled option"
+
+  if len(args) >= 1:
+    cmd = args[0]
+
+  if cmd is None:
+    usage()
+    sys.exit()
+
+  config = loadConfig(inv)
+
+  if config is None:
+    sys.exit(2)
+
+  if verbose:
+    print "Using configuration: %s" % (config['description'])
+
+  dockit = Dockit(config)
+
+  # call the command for all container if no container is specfied on the command line
+  if cont is None:
+    for c in config['containers']:
+      dockit.run_command(cmd, c)
+  else:
+    for c in config['containers']:
+      if c['name'] == cont:
+        dockit.run_command(cmd, c)
+
+
+if __name__ == "__main__":
+    main()
