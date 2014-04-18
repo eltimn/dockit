@@ -72,6 +72,7 @@ in the same directory as your dockit.yml file. That's it! All of your containers
 Usage
 =====
 
+<pre>
 Usage: dockit [OPTIONS] [COMMAND]
   -h --help         Display this usage message
   -c --container    The name (or id) of the docker container to use
@@ -82,6 +83,7 @@ Commands: create|destroy|inspect|kill|remove|restart|start|stop|top|up
 
 If no container is specified via the -c option, the command will
 be called for all containers listed in the inventory file.
+</pre>
 
 TODO
 ====
