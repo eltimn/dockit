@@ -64,11 +64,13 @@ class Dockit:
 
       vols = self._getSrcVolumes(cont)
       ports = self._getSrcPorts(cont)
+      envs = self._getEnvs(cont)
 
       print "cmd: %s" % cmd
       print "ports: %s" % ports
+      print "envs: %s" % envs
 
-      ret = self.c.create_container(image, name=cont['name'], command=cmd, detach=True, volumes=vols, ports=ports)
+      ret = self.c.create_container(image, name=cont['name'], command=cmd, detach=True, volumes=vols, ports=ports, environment=envs)
 
       if ret is not None:
         print "Container %s created: %s" % (cont['name'], ret['Id'])
@@ -193,6 +195,12 @@ class Dockit:
     if 'volumes' in cont and cont['volumes'] is not None:
       vols = cont['volumes'].keys()
     return vols
+
+  def _getEnvs(self, cont):
+    envs = None
+    if 'environment' in cont and cont['environment'] is not None:
+      envs = cont['environment']
+    return envs
 
   def run_command(self, cmd, cont):
     name = None
