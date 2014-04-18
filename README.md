@@ -30,7 +30,7 @@ Coming soon.
 Install via source
 ------------------
 
-    me@myhost$ git clone eltimn/dockit
+    me@myhost$ git clone https://github.com/eltimn/dockit.git
     me@myhost$ mkdir ~/bin
     me@myhost$ ln -s /path/to/dockit/dockit ~/bin/dockit
 
@@ -69,6 +69,8 @@ Once that's setup, just run:
 
 in the same directory as your dockit.yml file. That's it! All of your containers should have started.
 
+Usage
+=====
 
 Usage: dockit [OPTIONS] [COMMAND]
   -h --help         Display this usage message
