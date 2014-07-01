@@ -17,6 +17,8 @@ Requirements
 ============
 
 * [Docker](https://www.docker.io/)
+* [Python](https://www.python.org/)
+* [python-yaml](http://pkgs.org/download/python-yaml)
 * [docker-py](https://github.com/dotcloud/docker-py)
 
 Installation
@@ -45,16 +47,16 @@ Here's an example:
     description: Development Environment
     name: myapp
     containers:
-      - image: eltimn/mongo
+      - image: dockerfile/mongodb
         name: myapp_mongo
-        command: "--noprealloc --smallfiles --rest"
+        command: "/usr/bin/mongod --noprealloc --smallfiles"
         before_start: sudo mkdir -p /srv/myapp/mongo-data
         ports:
           27017/tcp: 2700
           28017/tcp: 2701
         volumes:
           /srv/myapp/mongo-data: /data/db
-      - image: eltimn/rabbitmq
+      - image: tutum/rabbitmq
         name: myapp_rabbitmq
         environment:
           RABBITMQ_USER: "myapp"

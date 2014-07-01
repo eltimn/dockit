@@ -187,8 +187,8 @@ class Dockit:
   def _getSrcPorts(self, cont):
     ports = None
     if 'ports' in cont and cont['ports'] is not None:
-      vols = cont['ports'].keys()
-    return vols
+      ports = cont['ports'].keys()
+    return ports
 
   def _getSrcVolumes(self, cont):
     vols = None
