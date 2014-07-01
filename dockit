@@ -76,7 +76,7 @@ class Dockit:
         print "Container %s created: %s" % (cont['name'], ret['Id'])
         if 'Warnings' in ret:
           print "Warnings: %s" % (ret['Warnings'])
-    except docker.client.APIError as err:
+    except docker.errors.APIError as err:
       print err.explanation
 
     return ret
@@ -88,7 +88,7 @@ class Dockit:
         print ret
       else:
         print "Container %s killed." % (name)
-    except docker.client.APIError as err:
+    except docker.errors.APIError as err:
       print err.explanation
 
   def inspect(self, name):
@@ -103,7 +103,7 @@ class Dockit:
         print ret
       else:
         print "Container %s removed." % (name)
-    except docker.client.APIError as err:
+    except docker.errors.APIError as err:
       print err.explanation
 
   def restart(self, name):
@@ -113,7 +113,7 @@ class Dockit:
         print ret
       else:
         print "Container %s restarted." % (name)
-    except docker.client.APIError as err:
+    except docker.errors.APIError as err:
       print err.explanation
 
   def start(self, cont):
@@ -146,7 +146,7 @@ class Dockit:
         print ret
       else:
         print "Container %s started." % (cont['name'])
-    except docker.client.APIError as err:
+    except docker.errors.APIError as err:
       print err.explanation
 
     if ret is None and 'after_start' in cont:
@@ -165,13 +165,13 @@ class Dockit:
         print ret
       else:
         print "Container %s stopped." % (name)
-    except docker.client.APIError as err:
+    except docker.errors.APIError as err:
       print err.explanation
 
   def top(self, name):
     try:
       pp.pprint(self.c.top(name))
-    except docker.client.APIError as err:
+    except docker.errors.APIError as err:
       print err.explanation
 
   def _getInfoByName(self, name):
@@ -179,7 +179,7 @@ class Dockit:
     try:
       info = self.c.inspect_container(name)
       ret = info
-    except docker.client.APIError as err:
+    except docker.errors.APIError as err:
       print err.explanation
 
     return ret
